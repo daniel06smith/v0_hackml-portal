@@ -74,7 +74,12 @@ export default function HackMLPortal() {
                 <div className="card">
                   <div className="card-icon">★</div>
                   <h2>Have Fun</h2>
-                  <p>Enjoy a retro-themed ML hackathon with friends and prizes.</p>
+                  <p>Enjoy a retro-themed ML hackathon with friends and prizes!</p>
+                </div>
+                <div className="card">
+                  <div className="card-icon">✉︎</div>
+                  <h2>Questions?</h2>
+                  <p>Reach out to us at <a href="https://www.sfudsss.com/contact">SFU DSSS Contacts</a>!</p>
                 </div>
               </div>
             </section>
