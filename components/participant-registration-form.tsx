@@ -4,11 +4,6 @@ import type React from "react"
 
 import { useState } from "react"
 import { createClient } from "@/lib/supabase/client"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useRouter } from "next/navigation"
 import { useToast } from "@/hooks/use-toast"
 
@@ -21,6 +16,7 @@ export function ParticipantRegistrationForm() {
     lastName: "",
     email: "",
     studentNumber: "",
+    discordUsername: "",
     major: "",
     year: "",
     howHeard: [] as string[],
@@ -93,22 +89,26 @@ export function ParticipantRegistrationForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid md:grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="firstName">First Name *</Label>
-          <Input
+    <form onSubmit={handleSubmit} className="retro-form">
+      <div className="form-row">
+        <div className="form-group">
+          <label htmlFor="firstName" className="retro-label">First Name</label>
+          <input
             id="firstName"
+            type="text"
+            className="retro-input"
             placeholder="John"
             value={formData.firstName}
             onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
             required
           />
         </div>
-        <div className="space-y-2">
-          <Label htmlFor="lastName">Last Name *</Label>
-          <Input
+        <div className="form-group">
+          <label htmlFor="lastName" className="retro-label">Last Name</label>
+          <input
             id="lastName"
+            type="text"
+            className="retro-input"
             placeholder="Doe"
             value={formData.lastName}
             onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
@@ -117,35 +117,40 @@ export function ParticipantRegistrationForm() {
         </div>
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="email">Email *</Label>
-        <Input
+      <div className="form-group">
+        <label htmlFor="email" className="retro-label">Email</label>
+        <input
           id="email"
           type="email"
+          className="retro-input"
           placeholder="data8@sfu.ca"
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           required
         />
-        <p className="text-xs text-muted-foreground">Preferred: @sfu.ca email</p>
+        <p className="form-hint">Preferred: @sfu.ca email</p>
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="studentNumber">Student Number *</Label>
-        <Input
+      <div className="form-group">
+        <label htmlFor="studentNumber" className="retro-label">Student Number</label>
+        <input
           id="studentNumber"
+          type="text"
+          className="retro-input"
           placeholder="300913643"
           value={formData.studentNumber}
           onChange={(e) => setFormData({ ...formData, studentNumber: e.target.value })}
           required
         />
-        <p className="text-xs text-muted-foreground">9-digit number listed on your student ID</p>
+        <p className="form-hint">9-digit number listed on your student ID</p>
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="discordUsername">Discord Username *</Label>
-        <Input
+      <div className="form-group">
+        <label htmlFor="discordUsername" className="retro-label">Discord Username</label>
+        <input
           id="discordUsername"
+          type="text"
+          className="retro-input"
           placeholder="data8"
           value={formData.discordUsername}
           onChange={(e) => setFormData({ ...formData, discordUsername: e.target.value })}
@@ -153,80 +158,82 @@ export function ParticipantRegistrationForm() {
         />
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="major">Major *</Label>
-        <Select value={formData.major} onValueChange={(value) => setFormData({ ...formData, major: value })} required>
-          <SelectTrigger id="major">
-            <SelectValue placeholder="Select your major" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="data-science">Data Science</SelectItem>
-            <SelectItem value="computer-science">Computer Science</SelectItem>
-            <SelectItem value="statistics">Statistics</SelectItem>
-            <SelectItem value="business">Business</SelectItem>
-            <SelectItem value="other">Other</SelectItem>
-          </SelectContent>
-        </Select>
+      <div className="form-group">
+        <label htmlFor="major" className="retro-label">Major</label>
+        <select
+          id="major"
+          className="retro-input retro-select"
+          value={formData.major}
+          onChange={(e) => setFormData({ ...formData, major: e.target.value })}
+          required
+        >
+          <option value="">Select your major</option>
+          <option value="data-science">Data Science</option>
+          <option value="computer-science">Computer Science</option>
+          <option value="statistics">Statistics</option>
+          <option value="business">Business</option>
+          <option value="other">Other</option>
+        </select>
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="year">What year are you in? *</Label>
-        <Select value={formData.year} onValueChange={(value) => setFormData({ ...formData, year: value })} required>
-          <SelectTrigger id="year">
-            <SelectValue placeholder="Select your year" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="1">1</SelectItem>
-            <SelectItem value="2">2</SelectItem>
-            <SelectItem value="3">3</SelectItem>
-            <SelectItem value="4+">4+</SelectItem>
-          </SelectContent>
-        </Select>
+      <div className="form-group">
+        <label htmlFor="year" className="retro-label">What year are you in?</label>
+        <select
+          id="year"
+          className="retro-input retro-select"
+          value={formData.year}
+          onChange={(e) => setFormData({ ...formData, year: e.target.value })}
+          required
+        >
+          <option value="">Select your year</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4+">4+</option>
+        </select>
       </div>
 
-      <div className="space-y-2">
-        <Label>How did you hear about this event? *</Label>
-        <div className="space-y-2">
+      <div className="form-group">
+        <label className="retro-label">How did you hear about this event?</label>
+        <div className="retro-checkbox-group">
           {["Instagram", "Discord", "Email", "A friend", "Posters", "Other"].map((option) => (
-            <label key={option} className="flex items-center gap-2 cursor-pointer">
+            <label key={option} className="retro-checkbox-label">
               <input
                 type="checkbox"
+                className="retro-checkbox"
                 checked={formData.howHeard.includes(option)}
                 onChange={() => toggleHowHeard(option)}
-                className="w-4 h-4 rounded border-input"
               />
-              <span className="text-sm text-foreground">{option}</span>
+              <span>{option}</span>
             </label>
           ))}
         </div>
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="kaggleUsername">Kaggle Username *</Label>
-        <Input
+      <div className="form-group">
+        <label htmlFor="kaggleUsername" className="retro-label">Kaggle Username</label>
+        <input
           id="kaggleUsername"
+          type="text"
+          className="retro-input"
           placeholder="your_kaggle_username"
           value={formData.kaggleUsername}
           onChange={(e) => setFormData({ ...formData, kaggleUsername: e.target.value })}
           required
         />
-        <p className="text-xs text-muted-foreground">
+        <p className="form-hint">
           If you haven't already, please create a free Kaggle account at{" "}
-          <a
-            href="https://www.kaggle.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary hover:underline"
-          >
+          <a href="https://www.kaggle.com/" target="_blank" rel="noopener noreferrer" className="retro-link">
             kaggle.com
           </a>
         </p>
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="dietaryRestrictions">Do you have any dietary restrictions? *</Label>
-        <Textarea
+      <div className="form-group">
+        <label htmlFor="dietaryRestrictions" className="retro-label">Do you have any dietary restrictions?</label>
+        <textarea
           id="dietaryRestrictions"
+          className="retro-input retro-textarea"
           placeholder="e.g., Vegetarian, Vegan, Gluten-free, Nut allergy, None"
           value={formData.dietaryRestrictions}
           onChange={(e) => setFormData({ ...formData, dietaryRestrictions: e.target.value })}
@@ -235,30 +242,28 @@ export function ParticipantRegistrationForm() {
         />
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="tshirtSize">T-shirt Size *</Label>
-        <Select
+      <div className="form-group">
+        <label htmlFor="tshirtSize" className="retro-label">T-shirt Size</label>
+        <select
+          id="tshirtSize"
+          className="retro-input retro-select"
           value={formData.tshirtSize}
-          onValueChange={(value) => setFormData({ ...formData, tshirtSize: value })}
+          onChange={(e) => setFormData({ ...formData, tshirtSize: e.target.value })}
           required
         >
-          <SelectTrigger id="tshirtSize">
-            <SelectValue placeholder="Select your size" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="xs">XS</SelectItem>
-            <SelectItem value="s">S</SelectItem>
-            <SelectItem value="m">M</SelectItem>
-            <SelectItem value="l">L</SelectItem>
-            <SelectItem value="xl">XL</SelectItem>
-            <SelectItem value="2xl">2XL</SelectItem>
-          </SelectContent>
-        </Select>
+          <option value="">Select your size</option>
+          <option value="xs">XS</option>
+          <option value="s">S</option>
+          <option value="m">M</option>
+          <option value="l">L</option>
+          <option value="xl">XL</option>
+          <option value="2xl">2XL</option>
+        </select>
       </div>
 
-      <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
+      <button type="submit" className="cta-button" disabled={isLoading}>
         {isLoading ? "Saving..." : "Save Registration"}
-      </Button>
+      </button>
     </form>
   )
 }

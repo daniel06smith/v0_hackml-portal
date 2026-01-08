@@ -4,12 +4,6 @@ import type React from "react"
 
 import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Badge } from "@/components/ui/badge"
 import { Users, Copy, Check } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useToast } from "@/hooks/use-toast"
@@ -209,56 +203,59 @@ export function TeamManagement({ userId, teamMembership }: TeamManagementProps) 
   if (teamMembership) {
     const team = teamMembership.teams
     const isLeader = team.leader_id === userId
-    const shareableLink = `${window.location.origin}/dashboard?code=${team.team_code}`
+    const shareableLink = typeof window !== "undefined" ? `${window.location.origin}/dashboard?code=${team.team_code}` : ""
 
     return (
-      <Card className="bg-card border-border">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Users className="w-5 h-5 text-primary" />
-              <CardTitle className="text-foreground">{team.team_name}</CardTitle>
-            </div>
-            {isLeader && <Badge variant="secondary">Team Leader</Badge>}
+      <div className="retro-card">
+        <div className="retro-card-header">
+          <div className="flex items-center gap-2">
+            <Users className="w-5 h-5" style={{ color: "var(--orange)" }} />
+            <h2 className="retro-card-title">{team.team_name}</h2>
           </div>
-          <CardDescription className="text-muted-foreground">{team.university}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="bg-muted rounded-lg p-6 text-center">
-            <p className="text-sm text-muted-foreground mb-2">Team Code</p>
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <code className="text-3xl font-bold font-mono tracking-wider text-foreground">{team.team_code}</code>
-              <Button size="icon" variant="ghost" onClick={() => copyToClipboard(team.team_code)}>
+          {isLeader && <span className="retro-badge">Team Leader</span>}
+        </div>
+        <p className="retro-card-description">{team.university}</p>
+        <div className="retro-card-content">
+          <div className="retro-team-code-box">
+            <p className="retro-info-label">Team Code</p>
+            <div className="retro-team-code-display">
+              <code className="retro-team-code">{team.team_code}</code>
+              <button
+                className="retro-icon-button"
+                onClick={() => copyToClipboard(team.team_code)}
+                aria-label="Copy team code"
+              >
                 {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-              </Button>
+              </button>
             </div>
-            <p className="text-xs text-muted-foreground mb-4">Share this code with your team members</p>
+            <p className="form-hint">Share this code with your team members</p>
           </div>
 
-          <div className="space-y-2">
-            <Label>Invite Link</Label>
-            <div className="flex gap-2">
-              <Input value={shareableLink} readOnly className="font-mono text-sm" />
-              <Button type="button" variant="secondary" onClick={() => copyToClipboard(shareableLink)}>
+          <div className="form-group">
+            <label className="retro-label">Invite Link</label>
+            <div className="retro-link-input-group">
+              <input value={shareableLink} readOnly className="retro-input" />
+              <button
+                type="button"
+                className="retro-icon-button"
+                onClick={() => copyToClipboard(shareableLink)}
+                aria-label="Copy invite link"
+              >
                 {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-              </Button>
+              </button>
             </div>
           </div>
 
-          {/* NEW: Team Members list */}
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <Label>Team Members</Label>
-              <span className="text-xs text-muted-foreground">{roster.length}/4</span>
+          <div className="form-group">
+            <div className="flex items-center justify-between mb-2">
+              <label className="retro-label">Team Members</label>
+              <span className="retro-info-label">{roster.length}/4</span>
             </div>
-
-            <div className="space-y-2">
+            <div className="retro-roster-list">
               {rosterLoading ? (
-                <div className="text-sm text-muted-foreground">Loading members…</div>
+                <div className="retro-info-label">Loading members…</div>
               ) : roster.length === 0 ? (
-                <div className="text-sm text-muted-foreground">
-                  No members found. (If you know members exist, this is likely an RLS policy issue.)
-                </div>
+                <div className="retro-info-label">No members found.</div>
               ) : (
                 roster.map((m) => {
                   const p = m.participant
@@ -266,17 +263,14 @@ export function TeamManagement({ userId, teamMembership }: TeamManagementProps) 
                   const fullName = [p?.first_name, p?.last_name].filter(Boolean).join(" ") || "Unnamed participant"
 
                   return (
-                    <div
-                      key={p?.id ?? `${m.joined_at}-${Math.random()}`}
-                      className="flex items-center justify-between rounded-md border p-3"
-                    >
+                    <div key={p?.id ?? `${m.joined_at}-${Math.random()}`} className="retro-roster-item">
                       <div>
-                        <div className="font-medium flex items-center gap-2">
+                        <div className="retro-roster-name">
                           <span>{fullName}</span>
-                          {isMe && <Badge variant="secondary">You</Badge>}
-                          {p?.id === team.leader_id && <Badge variant="outline">Leader</Badge>}
+                          {isMe && <span className="retro-badge-small">You</span>}
+                          {p?.id === team.leader_id && <span className="retro-badge-small">Leader</span>}
                         </div>
-                        <div className="text-sm text-muted-foreground">Discord: {p?.discord_username ?? "—"}</div>
+                        <div className="retro-info-label">Discord: {p?.discord_username ?? "—"}</div>
                       </div>
                     </div>
                   )
@@ -284,74 +278,92 @@ export function TeamManagement({ userId, teamMembership }: TeamManagementProps) 
               )}
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     )
   }
 
   return (
-    <Card className="bg-card border-border">
-      <CardHeader>
-        <CardTitle className="text-foreground">Team Registration</CardTitle>
-        <CardDescription className="text-muted-foreground">Create a new team or join an existing one</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-2 mb-6">
-            <TabsTrigger value="create">Create Team</TabsTrigger>
-            <TabsTrigger value="join">Join Team</TabsTrigger>
-          </TabsList>
+    <div className="retro-card">
+      <div className="retro-card-header">
+        <h2 className="retro-card-title">Team Registration</h2>
+      </div>
+      <p className="retro-card-description">Create a new team or join an existing one</p>
+      <div className="retro-card-content">
+        <div className="retro-tabs">
+          <div className="retro-tabs-list">
+            <button
+              type="button"
+              className={`retro-tab ${activeTab === "create" ? "retro-tab-active" : ""}`}
+              onClick={() => setActiveTab("create")}
+            >
+              Create Team
+            </button>
+            <button
+              type="button"
+              className={`retro-tab ${activeTab === "join" ? "retro-tab-active" : ""}`}
+              onClick={() => setActiveTab("join")}
+            >
+              Join Team
+            </button>
+          </div>
 
-          <TabsContent value="create">
-            <form onSubmit={handleCreateTeam} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="teamName">Team Name *</Label>
-                <Input
+          {activeTab === "create" && (
+            <form onSubmit={handleCreateTeam} className="retro-form">
+              <div className="form-group">
+                <label htmlFor="teamName" className="retro-label">Team Name</label>
+                <input
                   id="teamName"
+                  type="text"
+                  className="retro-input"
                   placeholder="Neural Ninjas"
                   value={createTeamData.teamName}
                   onChange={(e) => setCreateTeamData({ ...createTeamData, teamName: e.target.value })}
                   required
                 />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="university">University / Institution *</Label>
-                <Input
+              <div className="form-group">
+                <label htmlFor="university" className="retro-label">University / Institution</label>
+                <input
                   id="university"
+                  type="text"
+                  className="retro-input"
                   placeholder="Simon Fraser University"
                   value={createTeamData.university}
                   onChange={(e) => setCreateTeamData({ ...createTeamData, university: e.target.value })}
                   required
                 />
               </div>
-              <Button type="submit" className="w-full" disabled={isLoading}>
+              <button type="submit" className="cta-button" disabled={isLoading}>
                 {isLoading ? "Creating..." : "Create Team"}
-              </Button>
+              </button>
             </form>
-          </TabsContent>
+          )}
 
-          <TabsContent value="join">
-            <form onSubmit={handleJoinTeam} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="teamCode">Team Code *</Label>
-                <Input
+          {activeTab === "join" && (
+            <form onSubmit={handleJoinTeam} className="retro-form">
+              <div className="form-group">
+                <label htmlFor="teamCode" className="retro-label">Team Code</label>
+                <input
                   id="teamCode"
+                  type="text"
+                  className="retro-input"
                   placeholder="ABC123"
                   value={joinTeamCode}
                   onChange={(e) => setJoinTeamCode(e.target.value.toUpperCase())}
                   required
-                  className="font-mono"
                   maxLength={6}
+                  style={{ fontFamily: "monospace", letterSpacing: "2px" }}
                 />
-                <p className="text-xs text-muted-foreground">Enter the 6-character code shared by your team leader</p>
+                <p className="form-hint">Enter the 6-character code shared by your team leader</p>
               </div>
-              <Button type="submit" className="w-full" disabled={isLoading}>
+              <button type="submit" className="cta-button" disabled={isLoading}>
                 {isLoading ? "Joining..." : "Join Team"}
-              </Button>
+              </button>
             </form>
-          </TabsContent>
-        </Tabs>
-      </CardContent>
-    </Card>
+          )}
+        </div>
+      </div>
+    </div>
   )
 }

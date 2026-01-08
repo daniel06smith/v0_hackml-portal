@@ -3,10 +3,7 @@
 import type React from "react"
 
 import { createClient } from "@/lib/supabase/client"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Navbar } from "@/components/navbar"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
@@ -55,63 +52,70 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center p-6 bg-background">
-      <div className="w-full max-w-sm">
-        <Card className="bg-card border-border">
-          <CardHeader>
-            <CardTitle className="text-2xl text-foreground">Create Account</CardTitle>
-            <CardDescription className="text-muted-foreground">Sign up for HackML 2026</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSignUp}>
-              <div className="flex flex-col gap-6">
-                <div className="grid gap-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
+    <>
+      <Navbar />
+      <main>
+        <section className="hero">
+          <div className="container">
+            <div className="hero-content">
+              <h1>
+                <span className="main-title">Create Account</span>
+              </h1>
+              <p className="hero-subtitle">Sign up for HackML 2026</p>
+              <form onSubmit={handleSignUp} className="retro-form">
+                <div className="form-group">
+                  <label htmlFor="email" className="retro-label">Email</label>
+                  <input
                     id="email"
                     type="email"
+                    className="retro-input"
                     placeholder="data8@sfu.ca"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
-                  <p className="text-xs text-muted-foreground">Use your university email</p>
+                  <p className="form-hint">Use your university email</p>
                 </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="password">Password</Label>
-                  <Input
+                <div className="form-group">
+                  <label htmlFor="password" className="retro-label">Password</label>
+                  <input
                     id="password"
                     type="password"
+                    className="retro-input"
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="confirm-password">Confirm Password</Label>
-                  <Input
+                <div className="form-group">
+                  <label htmlFor="confirm-password" className="retro-label">Confirm Password</label>
+                  <input
                     id="confirm-password"
                     type="password"
+                    className="retro-input"
                     required
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                   />
                 </div>
-                {error && <p className="text-sm text-red-500">{error}</p>}
-                <Button type="submit" className="w-full" disabled={isLoading}>
+                {error && <p className="form-error">{error}</p>}
+                <button type="submit" className="cta-button" disabled={isLoading}>
                   {isLoading ? "Creating account..." : "Create Account"}
-                </Button>
-              </div>
-              <div className="mt-4 text-center text-sm text-muted-foreground">
-                Already have an account?{" "}
-                <Link href="/auth/login" className="text-primary hover:underline underline-offset-4">
-                  Sign in
-                </Link>
-              </div>
-            </form>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
+                </button>
+                <div className="form-link">
+                  Already have an account?{" "}
+                  <Link href="/auth/login" className="retro-link">
+                    Sign in
+                  </Link>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+      </main>
+      <footer>
+        <p>Hosted by the Data Science Student Society (DSSS) at SFU</p>
+      </footer>
+    </>
   )
 }

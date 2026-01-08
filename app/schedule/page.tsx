@@ -1,0 +1,57 @@
+import Link from "next/link"
+import { Navbar } from "@/components/navbar"
+
+export default function SchedulePage() {
+  return (
+    <>
+      {/* Top navigation bar */}
+      <Navbar />
+
+      {/* Main content */}
+      <main>
+        <section className="hero">
+          <div className="container">
+            <div className="hero-content">
+              <h1>
+                <span className="main-title">Event Schedule</span>
+              </h1>
+              <div className="info-section">
+                <div className="feature-list">
+                  <div className="feature-item">
+                    <strong>8:00 AM - Registration & Check-in:</strong> Participants arrive, check in, and receive competition credentials and materials.
+                  </div>
+                  <div className="feature-item">
+                    <strong>9:00 AM - Opening Ceremony:</strong> Welcome address, competition overview, and introduction to the Kaggle dataset and problem statement.
+                  </div>
+                  <div className="feature-item">
+                    <strong>9:30 AM - Competition Begins:</strong> Teams start working on their machine learning models. Dataset and problem details are released.
+                  </div>
+                  <div className="feature-item">
+                    <strong>12:00 PM - Lunch Break:</strong> Complimentary lunch provided for all participants. Networking opportunity.
+                  </div>
+                  <div className="feature-item">
+                    <strong>3:00 PM - Mid-point Check-in:</strong> Brief progress update and Q&A session with competition organizers.
+                  </div>
+                  <div className="feature-item">
+                    <strong>6:00 PM - Final Submission Deadline:</strong> All model submissions must be completed and submitted through Kaggle by this time.
+                  </div>
+                  <div className="feature-item">
+                    <strong>7:00 PM - Results & Awards Ceremony:</strong> Leaderboard results announced, winners recognized, and prizes awarded.
+                  </div>
+                  <div className="feature-item">
+                    <strong>8:00 PM - Closing & Networking:</strong> Event concludes with networking session and refreshments.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* Footer */}
+      <footer>
+        <p>Hosted by the Data Science Student Society (DSSS) at SFU</p>
+      </footer>
+    </>
+  )
+}

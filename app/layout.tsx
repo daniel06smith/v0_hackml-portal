@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { Toaster } from "@/components/ui/toaster"
+import { RetroMusicPlayer } from "@/components/retro-music-player"
 import "./globals.css"
 
 const _geist = Geist({ subsets: ["latin"] })
@@ -39,7 +40,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans antialiased`}>
+        {/* Pixelated layered background */}
+        <div className="pixel-stars" />
+        <div className="synthwave-grid">
+          <div className="grid-lines" id="gridLines" />
+        </div>
+        <div className="particles" id="particles" />
         {children}
+        <RetroMusicPlayer />
         <Toaster />
         <Analytics />
       </body>
