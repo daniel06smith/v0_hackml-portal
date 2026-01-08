@@ -48,7 +48,7 @@ export function RegistrationStatus({ participant }: RegistrationStatusProps) {
       <div className="retro-card-header">
         <div className="flex items-center gap-2">
           <UserPlus className="w-5 h-5" style={{ color: "var(--orange)" }} />
-          <h2 className="retro-card-title">Complete Your Registration</h2>
+          <span><h2 className="retro-card-title">Complete Your Registration</h2></span>
         </div>
       </div>
       <p className="retro-card-description">Fill out your participant information to continue</p>
