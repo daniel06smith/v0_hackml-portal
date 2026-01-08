@@ -87,7 +87,7 @@ export default function LoginPage() {
         </section>
       </main>
       <footer>
-        <p>Hosted by the Data Science Student Society (DSSS) at SFU</p>
+        <p>Hosted by the Data Science Student Society (DSSS) at Simon Fraser University</p>
       </footer>
     </>
   )
