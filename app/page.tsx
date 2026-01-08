@@ -17,7 +17,8 @@ export default function HackMLPortal() {
                 <span className="main-title">Join HackML 2026</span>
               </h1>
               <p className="hero-subtitle">
-                The Data Science Student Society (DSSS) is excited to host HackML 2026 this January! Join us for a 12-hour
+                The Data Science Student Society (DSSS) is excited to host HackML 2026 this January! 
+                <br />Join us for a 12-hour
                 model-building competition where students work in teams to solve problems through appropriate machine
                 learning model applications.
               </p>
