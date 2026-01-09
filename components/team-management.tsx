@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
-import { Users, Copy, Check } from "lucide-react"
+import { Users, Copy, Check, LogOut } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useToast } from "@/hooks/use-toast"
 
@@ -200,6 +200,78 @@ export function TeamManagement({ userId, teamMembership }: TeamManagementProps) 
     }
   }
 
+  const handleLeaveTeam = async () => {
+    if (!confirm("Are you sure you want to leave this team?")) {
+      return
+    }
+
+    setIsLoading(true)
+    const supabase = createClient()
+
+    try {
+      const team = teamMembership.teams
+      const teamId = team.id
+      const isLeader = team.leader_id === userId
+
+      // Get all team members
+      const { data: allMembers, error: membersError } = await supabase
+        .from("team_members")
+        .select("participant_id")
+        .eq("team_id", teamId)
+
+      if (membersError) throw membersError
+
+      const memberCount = allMembers?.length || 0
+
+      // If leader is leaving and there are other members, transfer leadership
+      if (isLeader && memberCount > 1) {
+        // Find the first member who is not the leader
+        const newLeaderId = allMembers?.find((m) => m.participant_id !== userId)?.participant_id
+
+        if (newLeaderId) {
+          // Transfer leadership
+          const { error: updateError } = await supabase
+            .from("teams")
+            .update({ leader_id: newLeaderId })
+            .eq("id", teamId)
+
+          if (updateError) throw updateError
+        }
+      }
+
+      // If leader is leaving and they're the only member, delete the team
+      if (isLeader && memberCount === 1) {
+        const { error: deleteTeamError } = await supabase.from("teams").delete().eq("id", teamId)
+
+        if (deleteTeamError) throw deleteTeamError
+      } else {
+        // Remove user from team_members
+        const { error: leaveError } = await supabase
+          .from("team_members")
+          .delete()
+          .eq("team_id", teamId)
+          .eq("participant_id", userId)
+
+        if (leaveError) throw leaveError
+      }
+
+      toast({
+        title: "Success!",
+        description: isLeader && memberCount === 1 ? "Team deleted" : "You've left the team",
+      })
+
+      router.refresh()
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to leave team",
+        variant: "destructive",
+      })
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   if (teamMembership) {
     const team = teamMembership.teams
     const isLeader = team.leader_id === userId
@@ -277,6 +349,23 @@ export function TeamManagement({ userId, teamMembership }: TeamManagementProps) 
                 })
               )}
             </div>
+          </div>
+
+          <div className="form-group" style={{ marginTop: "2rem" }}>
+            <button
+              type="button"
+              className="retro-button retro-button-danger"
+              onClick={handleLeaveTeam}
+              disabled={isLoading}
+            >
+              <LogOut className="w-4 h-4" style={{ marginRight: "0.5rem" }} />
+              {isLeader ? "Delete Team" : "Leave Team"}
+            </button>
+            {isLeader && (
+              <p className="form-hint" style={{ marginTop: "0.5rem" }}>
+                As team leader, leaving will transfer leadership to another member or delete the team if you're alone.
+              </p>
+            )}
           </div>
         </div>
       </div>

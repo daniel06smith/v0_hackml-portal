@@ -22,7 +22,6 @@ export function ParticipantRegistrationForm() {
     howHeard: [] as string[],
     kaggleUsername: "",
     dietaryRestrictions: "",
-    tshirtSize: "",
   })
 
   const toggleHowHeard = (option: string) => {
@@ -66,7 +65,6 @@ export function ParticipantRegistrationForm() {
         how_heard: formData.howHeard,
         kaggle_username: formData.kaggleUsername,
         dietary_restrictions: formData.dietaryRestrictions,
-        tshirt_size: formData.tshirtSize,
       })
 
       if (error) throw error
@@ -119,7 +117,6 @@ export function ParticipantRegistrationForm() {
 
       <div className="form-group">
         <label htmlFor="email" className="retro-label">Email</label>
-        <p className="form-hint">Preferred: @sfu.ca email</p>
         <input
           id="email"
           type="email"
@@ -129,11 +126,11 @@ export function ParticipantRegistrationForm() {
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           required
         />
+        <p className="form-hint">Preferred: @sfu.ca email</p>
       </div>
 
       <div className="form-group">
         <label htmlFor="studentNumber" className="retro-label">Student Number</label>
-        <p className="form-hint">9-digit number listed on your student ID</p>
         <input
           id="studentNumber"
           type="text"
@@ -143,6 +140,7 @@ export function ParticipantRegistrationForm() {
           onChange={(e) => setFormData({ ...formData, studentNumber: e.target.value })}
           required
         />
+        <p className="form-hint">9-digit number listed on your student ID</p>
       </div>
 
       <div className="form-group">
@@ -234,32 +232,13 @@ export function ParticipantRegistrationForm() {
         <textarea
           id="dietaryRestrictions"
           className="retro-input retro-textarea"
-          placeholder="e.g., Vegetarian, Vegan, Gluten-free, Nut Allergy, None"
+          placeholder="e.g., Vegetarian, Vegan, Gluten-free, Nut allergy, None"
           value={formData.dietaryRestrictions}
           onChange={(e) => setFormData({ ...formData, dietaryRestrictions: e.target.value })}
           required
           rows={3}
         />
       </div>
-
-      {/* <div className="form-group">
-        <label htmlFor="tshirtSize" className="retro-label">T-shirt Size</label>
-        <select
-          id="tshirtSize"
-          className="retro-input retro-select"
-          value={formData.tshirtSize}
-          onChange={(e) => setFormData({ ...formData, tshirtSize: e.target.value })}
-          required
-        >
-          <option value="">Select your size</option>
-          <option value="xs">XS</option>
-          <option value="s">S</option>
-          <option value="m">M</option>
-          <option value="l">L</option>
-          <option value="xl">XL</option>
-          <option value="2xl">2XL</option>
-        </select>
-      </div> */}
 
       <button type="submit" className="cta-button" disabled={isLoading}>
         {isLoading ? "Saving..." : "Save Registration"}

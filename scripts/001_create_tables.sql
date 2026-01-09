@@ -5,13 +5,11 @@ CREATE TABLE IF NOT EXISTS participants (
   last_name TEXT NOT NULL,
   email TEXT NOT NULL UNIQUE,
   student_number TEXT NOT NULL,
-  discord_username TEXT NOT NULL,
   major TEXT NOT NULL,
   year TEXT NOT NULL,
   how_heard TEXT[] NOT NULL,
   kaggle_username TEXT NOT NULL,
   dietary_restrictions TEXT,
-  tshirt_size TEXT NOT NULL,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW())
 );
 

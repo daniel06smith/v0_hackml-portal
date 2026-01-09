@@ -694,18 +694,89 @@ body::before {
   margin: 2rem 0;
 }
 
-/* How It Works - 4 cards in one line */
+/* How It Works - 5 cards in one line */
 .how-it-works-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.8rem;
   padding: 2rem 0;
-  margin: 2rem 0;
+  margin: 2rem auto;
+  width: 100%;
+  align-items: stretch;
+}
+
+.how-it-works-grid .card {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 280px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 1.2rem 0.8rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  box-sizing: border-box;
+}
+
+.how-it-works-grid .card h2 {
+  font-size: 0.75rem;
+  text-align: center;
+  word-wrap: break-word;
+  hyphens: auto;
+  max-width: 100%;
+  margin: 0 auto 0.5rem;
+  padding: 0 0.2rem;
+  line-height: 1.4;
+  min-height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.how-it-works-grid .card p {
+  text-align: center;
+  padding: 0 0.2rem;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  flex-grow: 1;
+  display: block;
+  margin: 0;
+}
+
+.how-it-works-grid .card p a {
+  color: var(--orange);
+  text-decoration: underline;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 1), 0 0 6px rgba(255, 107, 53, 0.6);
+  display: inline;
+}
+
+.how-it-works-grid .card-icon {
+  font-size: 2rem;
+  margin-bottom: 0.8rem;
+  flex-shrink: 0;
+}
+
+@media (max-width: 1400px) {
+  .how-it-works-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+  }
+  .how-it-works-grid .card h2 {
+    font-size: 0.8rem;
+  }
 }
 
 @media (max-width: 1200px) {
   .how-it-works-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+  .how-it-works-grid .card h2 {
+    font-size: 0.85rem;
   }
   
   .cards-grid {
@@ -716,6 +787,9 @@ body::before {
 @media (max-width: 768px) {
   .how-it-works-grid {
     grid-template-columns: 1fr;
+  }
+  .how-it-works-grid .card h2 {
+    font-size: 1rem;
   }
   
   .cards-grid {
@@ -1285,6 +1359,12 @@ footer p {
   line-height: 1.6;
 }
 
+.retro-input.retro-select {
+  border: 3px solid rgba(255, 107, 53, 0.5);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.5);
+  background: rgba(15, 15, 46, 0.7);
+}
+
 .retro-input::placeholder {
   color: rgba(255, 255, 255, 0.4);
   opacity: 0.6;
@@ -1298,6 +1378,14 @@ footer p {
     inset 0 0 15px rgba(255, 107, 53, 0.2),
     0 0 0 2px rgba(0, 0, 0, 0.5),
     0 0 15px rgba(255, 107, 53, 0.4);
+}
+
+.retro-input.retro-select:focus {
+  border: 3px solid var(--orange);
+  box-shadow:
+    0 0 0 2px rgba(0, 0, 0, 0.5),
+    0 0 10px rgba(255, 107, 53, 0.3);
+  background: rgba(15, 15, 46, 0.8);
 }
 
 .retro-input:disabled {
@@ -1513,6 +1601,38 @@ footer p {
     0 2px 0 rgba(0, 0, 0, 0.5);
 }
 
+.retro-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.retro-button-danger {
+  border-color: #ff4444;
+  color: #ff4444;
+  box-shadow:
+    0 0 0 3px rgba(0, 0, 0, 0.8),
+    0 4px 0 rgba(0, 0, 0, 0.5);
+  text-shadow: 0 0 8px rgba(255, 68, 68, 0.6);
+}
+
+.retro-button-danger:hover {
+  border-color: #ff6666;
+  color: #ff6666;
+  box-shadow:
+    0 0 0 3px rgba(0, 0, 0, 0.8),
+    0 6px 0 rgba(0, 0, 0, 0.5),
+    0 0 15px rgba(255, 102, 102, 0.4);
+  text-shadow: 0 0 12px rgba(255, 102, 102, 0.8);
+}
+
+.retro-button-danger:active {
+  transform: translateY(2px);
+  box-shadow:
+    0 0 0 3px rgba(0, 0, 0, 0.8),
+    0 2px 0 rgba(0, 0, 0, 0.5);
+}
+
 /* Form Row for Two Columns */
 .form-row {
   display: grid;
@@ -1530,15 +1650,21 @@ footer p {
 /* Retro Select */
 .retro-select {
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ff6b35' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23ff6b35' d='M5 8L1 3h8z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 1rem center;
-  padding-right: 3rem;
+  padding-right: 2.5rem;
   cursor: pointer;
+  border: 3px solid rgba(255, 107, 53, 0.5);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.5);
 }
 
 .retro-select:focus {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffd700' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23ffd700' d='M5 8L1 3h8z'/%3E%3C/svg%3E");
+  border-color: var(--orange);
+  box-shadow:
+    0 0 0 2px rgba(0, 0, 0, 0.5),
+    0 0 10px rgba(255, 107, 53, 0.3);
 }
 
 .retro-select option {
@@ -1546,6 +1672,7 @@ footer p {
   color: var(--text-white);
   font-family: "Press Start 2P", cursive;
   font-size: 0.65rem;
+  padding: 0.5rem;
 }
 
 /* Retro Textarea */
