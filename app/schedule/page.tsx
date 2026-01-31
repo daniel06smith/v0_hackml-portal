@@ -21,7 +21,7 @@ export default function SchedulePage() {
                     <strong>8:30 AM - Registration & Check-in:</strong> <br />Participants arrive, check in, and receive competition credentials and materials.
                   </div>
                   <div className="feature-item">
-                    <strong>9:00 AM - Opening Ceremony:</strong> <br />Welcome address, competition overview, and introduction to the Kaggle dataset and problem statement.
+                    <strong>9:15 AM - Opening Ceremony:</strong> <br />Welcome address, competition overview, and introduction to the Kaggle dataset and problem statement.
                   </div>
                   <div className="feature-item">
                     <strong>9:30 AM - Competition Begins:</strong> <br />Teams start working on their machine learning models. Dataset and problem details are released.
@@ -39,7 +39,7 @@ export default function SchedulePage() {
                     <strong>6:15 PM - Dinner & Networking:</strong> <br />Complimentary dinner provided for all participants. Networking opportunity.
                   </div>
                   <div className="feature-item">
-                    <strong>8:15 PM - Closing & Awards Ceremony:</strong> <br />Event concludes with winners and awards announcement.
+                    <strong>8:00 PM - Closing & Awards Ceremony:</strong> <br />Event concludes with winners and awards announcement.
                   </div>
                 </div>
               </div>
